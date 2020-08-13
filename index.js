@@ -39,8 +39,23 @@ Airplane.prototype.land = function () {
 */
 
 function Person(name, age) {
-  let emptyStomach = [];
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
+Person.prototype.eat = function (someFood) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(someFood);
+  }
+  return this.stomach;
+};
+Person.prototype.poop = function () {
+  this.stomach = [];
+};
+Person.prototype.toString = function () {
+  return `${this.name}, ${this.age}`;
+};
+console.log(Person("Teresa", 22));
 
 /*
   TASK 2
@@ -56,7 +71,15 @@ function Person(name, age) {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {}
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
+}
+Car.prototype.fill = function (gallons) {
+  this.tank += gallons;
+};
 
 /*
   TASK 3
@@ -65,16 +88,23 @@ function Car() {}
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {}
-
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favorite = favoriteToy;
+}
+Baby.prototype = Object.create(Person.prototype);
+Baby.prototype.play = function () {
+  return `Playing with ${this.favoriteToy}`;
+};
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+
+  1. GLOBAL/WINDOW BINDING - Do not console.log('this') in the global scope or else it will just return the window! 
+  2. IMPLICIT BINDING - You can locate the object by determining the value to the left of the dot! obj.yellName <-
+  3. NEW BINDING - Lets you use a constructor function to specificy the object that is then created and returned by said constructor function
+  4. EXPLICIT BINDING- uses call or apply method to define 'this' 
 */
 
 ///////// END OF CHALLENGE /////////
